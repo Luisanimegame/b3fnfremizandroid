@@ -220,7 +220,7 @@ class ConfigMenu extends MusicBeatState
 							leftRightCount = 0;
 						}
 
-						if(controls.BACK){
+						if(FlxG.keys.justPressed.ENTER){
 							canChangeItems = false;
 							FlxG.sound.music.fadeOut(0.3);
 							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue,introVal);
@@ -336,11 +336,10 @@ class ConfigMenu extends MusicBeatState
 	{
 		configSelected += huh;
 			
-		if (configSelected > settingText.length - 1)
-			configSelected = 0;
 		if (configSelected < 0)
 			configSelected = settingText.length - 1;
-			
+		if (configSelected >= settingText.length)
+			configSelected = 0;
 	}
 
 	function textUpdate(){

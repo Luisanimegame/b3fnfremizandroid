@@ -1,9 +1,9 @@
 package;
 
-import sys.FileSystem;
 //import polymod.fs.SysFileSystem;
 import Section.SwagSection;
 #if desktop
+import sys.FileSystem;
 import Discord.DiscordClient;
 #end
 import Song.SwagSong;
@@ -261,8 +261,8 @@ class PlayState extends MusicBeatState
 
 		FlxG.mouse.visible = false;
 
-		FlxG.sound.cache("assets/music/" + SONG.song + "_Inst" + TitleState.soundExt);
-		FlxG.sound.cache("assets/music/" + SONG.song + "_Voices" + TitleState.soundExt);
+		FlxG.sound.playMusic("assets/music/" + SONG.song + "_Inst" + TitleState.soundExt);
+		FlxG.sound.playMusic("assets/music/" + SONG.song + "_Voices" + TitleState.soundExt);
 		
 		if(Config.noFpsCap)
 			openfl.Lib.current.stage.frameRate = 999;
