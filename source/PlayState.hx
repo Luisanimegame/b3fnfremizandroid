@@ -349,25 +349,30 @@ class PlayState extends MusicBeatState
 		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconRPC);
 		#end
 
-		if(FileSystem.exists("assets/data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt")){
-			try{
-				hasDialogue = true;
-				dialogue = CoolUtil.coolTextFile("assets/data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt");
-				trace(dialogue);
-			}
-			catch(e){}
-		}
+		try {
+            if (Assets.exists("data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt")) {
+                hasDialogue = true;
+                dialogue = CoolUtil.coolTextFile(Assets.getPath("data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt"));
+                trace(dialogue);
+            } else {
+                hasDialogue = false;
+            }
+        } catch(e) {
+            hasDialogue = false;
+            trace("No dialogue: " + e);
+        }
 
 		// (tsg - 7/30/21) small things lyric system port
 		// check for lyrics
 		try {
-			lyrics = cast Json.parse(Assets.getText('assets/data/' + SONG.song.toLowerCase() + '/lyrics.json'));
-			trace(lyrics);
-			hasLyrics = true;
-			trace("Found lyrics for " + SONG.song.toLowerCase());
-		} catch(e) {
-			trace("No lyrics for " + SONG.song.toLowerCase());
-		}
+            lyrics = cast Json.parse(Assets.getText('data/' + SONG.song.toLowerCase() + '/lyrics.json'));
+            trace(lyrics);
+            hasLyrics = true;
+            trace("Found lyrics for " + SONG.song.toLowerCase());
+        } catch(e) {
+            hasLyrics = false;
+            trace("No lyrics for " + SONG.song.toLowerCase());
+        }
 
 		if (spookySongs.contains(SONG.song.toLowerCase()))
 		{
@@ -2385,14 +2390,18 @@ gayBoppers.push(dcameos);
 				
 
 		var hasD = false;
-		if(FileSystem.exists("assets/data/" + SONG.song.toLowerCase() + "/post" + SONG.song.toLowerCase() + ".txt")){
-			try{//checks for end dialogue
-				hasD = true;
-				dialogue = CoolUtil.coolTextFile("assets/data/" + SONG.song.toLowerCase() + "/post" + SONG.song.toLowerCase() + ".txt");
-				trace(dialogue);
-			}
-			catch(e){}
-		}
+		try {
+            if (Assets.exists("data/" + SONG.song.toLowerCase() + "/post" + SONG.song.toLowerCase() + ".txt")) {
+                hasD = true;
+                dialogue = CoolUtil.coolTextFile(Assets.getPath("data/" + SONG.song.toLowerCase() + "/post" + SONG.song.toLowerCase() + ".txt"));
+                trace(dialogue);
+            } else {
+                hasD = false;
+            }
+        } catch(e) {
+            hasD = false;
+            trace("No end dialogue: " + e);
+        }
 				
 				
 				if (hasD){//if it does, do end dialogue
