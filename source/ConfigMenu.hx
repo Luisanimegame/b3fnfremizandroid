@@ -220,7 +220,7 @@ class ConfigMenu extends MusicBeatState
 							leftRightCount = 0;
 						}
 
-						if(FlxG.keys.justPressed.ENTER){
+						if(controls.BACK){
 							canChangeItems = false;
 							FlxG.sound.music.fadeOut(0.3);
 							Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue,introVal);
