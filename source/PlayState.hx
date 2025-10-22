@@ -78,6 +78,10 @@ class PlayState extends MusicBeatState
 	
 	public static var botplay:Bool = true;
 	
+	private var errorLog:FlxText;
+private var showErrors:Bool = true; // Ativa/desativa o log na tela
+private static var lastError:String = "Nenhum erro detectado";
+	
 	var gayStation:FlxSprite;
 
 	var camFocus:String = "";
@@ -259,7 +263,6 @@ class PlayState extends MusicBeatState
 	
 	override public function create()
 	{
-
 		FlxG.mouse.visible = false;
 
 		FlxG.sound.cache("assets/music/" + SONG.song + "_Inst" + TitleState.soundExt);
@@ -295,7 +298,16 @@ class PlayState extends MusicBeatState
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
+		
+		if (showErrors) {
+    errorLog = new FlxText(10, 10, 0, "Erro: " + lastError, 16);
+    errorLog.setFormat(null, 16, FlxColor.RED, FlxTextAlign.LEFT, FlxColor.BLACK, true);
+    errorLog.scrollFactor.set();
+    errorLog.cameras = [camHUD]; // Aparece na HUD
+    add(errorLog);
+}
 
+		try {
 		FlxCamera.defaultCameras = [camGame];
 
 		persistentUpdate = true;
@@ -1641,6 +1653,9 @@ gayBoppers.push(dcameos);
 
 			strumLineNotes.add(babyArrow);
 		}
+		} catch (e:Dynamic) {
+    logError("Erro no create: " + Std.string(e));
+}
 	}
 
 	function tweenCamIn():Void
@@ -1779,6 +1794,7 @@ gayBoppers.push(dcameos);
 		}
 
 		super.update(elapsed);
+		try {
 
 		switch(Config.accuracy){
 			case "none":
@@ -2378,7 +2394,9 @@ gayBoppers.push(dcameos);
 		#end
 
 		//FlxG.camera.followLerp = 0.04 * (6 / Main.fpsDisplay.currentFPS); 
-
+	} catch (e:Dynamic) {
+    logError("Erro no update: " + Std.string(e));
+}
 	}
 	function endSong():Void
 	{
@@ -3345,6 +3363,7 @@ gayBoppers.push(dcameos);
 	{
 		wiggleShit.update(Conductor.crochet);
 		super.beatHit();
+		try {
 
 		if (generatedMusic)
 		{
@@ -3506,6 +3525,10 @@ gayBoppers.push(dcameos);
 		{
 			lightningStrikeShit();
 		}*/
+		
+		} catch (e:Dynamic) {
+    logError("Erro no beatHit: " + Std.string(e));
+}
 	}
 
 	function inRange(a:Float, b:Float, tolerance:Float){
@@ -3549,6 +3572,17 @@ gayBoppers.push(dcameos);
 					
 		}
 	}
+	
+	private static function logError(message:String):Void {
+    lastError = message;
+    if (FlxG.state is PlayState) {
+        var playState:PlayState = cast FlxG.state;
+        if (playState.errorLog != null && playState.showErrors) {
+            playState.errorLog.text = "Erro: " + message;
+        }
+    }
+    trace("Erro no PlayState: " + message); // Loga no console também, se debug
+}
 	
 	
 	var curLight:Int = 0;
