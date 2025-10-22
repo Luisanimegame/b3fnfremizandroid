@@ -1158,6 +1158,10 @@ gayBoppers.push(dcameos);
 					startCountdown();
 			}
 		}
+		
+		} catch (e:Dynamic) {
+    logError("Erro no create: " + Std.string(e));
+}
 
 		super.create();
 	}
@@ -1653,9 +1657,6 @@ gayBoppers.push(dcameos);
 
 			strumLineNotes.add(babyArrow);
 		}
-		} catch (e:Dynamic) {
-    logError("Erro no create: " + Std.string(e));
-}
 	}
 
 	function tweenCamIn():Void
