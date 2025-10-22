@@ -104,15 +104,18 @@ class MusicBeatState extends FlxUIState
 	    vPad.destroy();
 	    vPad = null;
 	  }
+	  
+	  if (mcontrols != null) {
+	    mcontrols.destroy();
+	    mcontrols = null;
+	  }
+	  #end
+	}
 
 	override function create()
 	{
 		if (transIn != null)
 			trace('reg ' + transIn.region);
-
-		#if (!web)
-		TitleState.soundExt = '.ogg';
-		#end
 
 		super.create();
 	}
