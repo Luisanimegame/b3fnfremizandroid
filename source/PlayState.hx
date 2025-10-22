@@ -46,6 +46,7 @@ import openfl.display.BlendMode;
 import Lyric.SwagLyricSection;
 import haxe.Json;
 import lime.utils.Assets;
+import openfl.Assets;
 
 using StringTools;
 
@@ -261,8 +262,8 @@ class PlayState extends MusicBeatState
 
 		FlxG.mouse.visible = false;
 
-		FlxG.sound.playMusic("assets/music/" + SONG.song + "_Inst" + TitleState.soundExt);
-		FlxG.sound.playMusic("assets/music/" + SONG.song + "_Voices" + TitleState.soundExt);
+		FlxG.sound.cache("assets/music/" + SONG.song + "_Inst" + TitleState.soundExt);
+		FlxG.sound.cache("assets/music/" + SONG.song + "_Voices" + TitleState.soundExt);
 		
 		if(Config.noFpsCap)
 			openfl.Lib.current.stage.frameRate = 999;
@@ -352,26 +353,44 @@ class PlayState extends MusicBeatState
 		try {
             if (Assets.exists("data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt")) {
                 hasDialogue = true;
-                dialogue = CoolUtil.coolTextFile(Assets.getPath("data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt"));
-                trace(dialogue);
+                var text = Assets.getText("data/" + SONG.song.toLowerCase() + "/" + SONG.song.toLowerCase() + "Dialogue.txt");
+                dialogue = text != null ? text.split("\n") : [];
+                trace("Dialogue loaded: " + dialogue);
             } else {
                 hasDialogue = false;
+                dialogue = [];
+                trace("Dialogue file not found");
             }
         } catch(e) {
             hasDialogue = false;
-            trace("No dialogue: " + e);
+            dialogue = [];
+            trace("Error loading dialogue: " + e);
         }
 
 		// (tsg - 7/30/21) small things lyric system port
 		// check for lyrics
 		try {
-            lyrics = cast Json.parse(Assets.getText('data/' + SONG.song.toLowerCase() + '/lyrics.json'));
-            trace(lyrics);
-            hasLyrics = true;
-            trace("Found lyrics for " + SONG.song.toLowerCase());
+            if (Assets.exists("data/" + SONG.song.toLowerCase() + "/lyrics.json")) {
+                var text = Assets.getText("data/" + SONG.song.toLowerCase() + "/lyrics.json");
+                if (text != null) {
+                    lyrics = cast Json.parse(text);
+                    hasLyrics = true;
+                    trace("Lyrics loaded: " + lyrics);
+                    trace("Found lyrics for " + SONG.song.toLowerCase());
+                } else {
+                    hasLyrics = false;
+                    lyrics = [];
+                    trace("Lyrics file is empty for " + SONG.song.toLowerCase());
+                }
+            } else {
+                hasLyrics = false;
+                lyrics = [];
+                trace("Lyrics file not found for " + SONG.song.toLowerCase());
+            }
         } catch(e) {
             hasLyrics = false;
-            trace("No lyrics for " + SONG.song.toLowerCase());
+            lyrics = [];
+            trace("Error loading lyrics: " + e);
         }
 
 		if (spookySongs.contains(SONG.song.toLowerCase()))
@@ -2393,14 +2412,18 @@ gayBoppers.push(dcameos);
 		try {
             if (Assets.exists("data/" + SONG.song.toLowerCase() + "/post" + SONG.song.toLowerCase() + ".txt")) {
                 hasD = true;
-                dialogue = CoolUtil.coolTextFile(Assets.getPath("data/" + SONG.song.toLowerCase() + "/post" + SONG.song.toLowerCase() + ".txt"));
-                trace(dialogue);
+                var text = Assets.getText("data/" + SONG.song.toLowerCase() + "/post" + SONG.song.toLowerCase() + ".txt");
+                dialogue = text != null ? text.split("\n") : [];
+                trace("End dialogue loaded: " + dialogue);
             } else {
                 hasD = false;
+                dialogue = [];
+                trace("End dialogue file not found");
             }
         } catch(e) {
             hasD = false;
-            trace("No end dialogue: " + e);
+            dialogue = [];
+            trace("Error loading end dialogue: " + e);
         }
 				
 				
