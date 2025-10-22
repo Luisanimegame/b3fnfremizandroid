@@ -9,6 +9,7 @@ class Main extends Sprite
 {
     public static var fpsDisplay:FPS;
     public static var preload:Bool = !Sys.args().contains("-nopreload");
+    public static var video:Bool = true; // Nova variável para controlar vídeos
 
     public function new()
     {
