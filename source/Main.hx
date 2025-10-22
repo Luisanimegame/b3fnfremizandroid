@@ -16,14 +16,14 @@ class Main extends Sprite
 
         #if CORY
         if(preload)
-            addChild(new FlxGame(0, 0, CoryState, true, 144, 144, true));
+            addChild(new FlxGame(0, 0, CoryState, 144, 144, true, true));
         else
-            addChild(new FlxGame(0, 0, CoryState, true, 144, 144, true));
+            addChild(new FlxGame(0, 0, CoryState, 144, 144, true, true));
         #else
         if(preload)
-            addChild(new FlxGame(0, 0, Startup, true, 144, 144, true)); // Linha 24 corrigida
+            addChild(new FlxGame(0, 0, Startup, 144, 144, true, true));
         else
-            addChild(new FlxGame(0, 0, TitleVidState, true, 144, 144, true)); // Linha 26 corrigida
+            addChild(new FlxGame(0, 0, TitleVidState, 144, 144, true, true));
         #end
             
         fpsDisplay = new FPS(10, 3, 0xFFFFFF);
