@@ -163,7 +163,7 @@ class ConfigMenu extends MusicBeatState
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
-		if(canChangeItems){
+		if(!canChangeItems){
 			if (controls.UP_P)
 				{
 					FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt);
@@ -316,15 +316,6 @@ class ConfigMenu extends MusicBeatState
 			FlxG.switchState(new MainMenuState());
 		}
 
-		#if debug
-		if (FlxG.keys.justPressed.Q)
-		{
-			canChangeItems = false;
-			Config.write(offsetValue, accuracyType, healthValue / 10.0, healthDrainValue / 10.0, iconValue, downValue, inputValue, glowValue, randomTapValue, noCapValue,introVal);
-			FlxG.switchState(new KeyBindQuick());
-		}
-		#end
-
 		super.update(elapsed);
 		
 		if(FlxG.keys.justPressed.ANY)
@@ -336,10 +327,10 @@ class ConfigMenu extends MusicBeatState
 	{
 		configSelected += huh;
 			
+		if (configSelected > settingText.length - 1)
+			configSelected = 0;
 		if (configSelected < 0)
 			configSelected = settingText.length - 1;
-		if (configSelected >= settingText.length)
-			configSelected = 0;
 	}
 
 	function textUpdate(){
